@@ -2,7 +2,7 @@ import produce from 'immer';
 
 export default function cart(state = [], action) {
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case '@cart/ADD':
       return produce(state, draf => {
         const productIndex = draf.findIndex(p => p.id === action.product.id);
         if (productIndex >= 0) {
@@ -12,6 +12,13 @@ export default function cart(state = [], action) {
             ...action.product,
             amount: 1,
           });
+        }
+      });
+    case '@cart/REMOVE':
+      return produce(state, draf => {
+        const productIndex = draf.findIndex(p => p.id === action.id);
+        if (productIndex >= 0) {
+          draf.splice(productIndex, 1);
         }
       });
     default:
